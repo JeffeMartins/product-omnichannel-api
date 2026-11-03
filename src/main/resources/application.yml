@@ -1,0 +1,39 @@
+spring:
+  application:
+    name: product-omnichannel-api
+  datasource:
+    url: ${DB_URL:jdbc:postgresql://localhost:25432/catalog}
+    username: catalog
+    password: ${DB_PASSWORD}
+    hikari:
+      maximum-pool-size: 8
+      connection-timeout: 2500
+  data:
+    redis:
+      repositories:
+        enabled: false
+      host: ${REDIS_HOST:localhost}
+      port: ${REDIS_PORT:6379}
+      timeout: 250ms
+      connect-timeout: 250ms
+server:
+  shutdown: graceful
+  error:
+    include-message: never
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info
+  endpoint:
+    health:
+      probes:
+        enabled: true
+      show-details: never
+resilience4j:
+  circuitbreaker:
+    instances:
+      redis:
+        minimum-number-of-calls: 5
+        sliding-window-size: 10
+        wait-duration-in-open-state: 5s
