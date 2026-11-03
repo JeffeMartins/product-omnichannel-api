@@ -21,7 +21,7 @@ public class CatalogService {
   }
 
   public Product product(String sku) {
-    String key = "catalog:product:v1:" + sku;
+    String key = "catalog:product:v2:" + sku;
     return cache
         .get(key, Product.class)
         .orElseGet(
@@ -43,10 +43,11 @@ public class CatalogService {
                                   new Attribute("Conectividade", "Bluetooth 5.3"),
                                   new Attribute("Garantia", "12 meses")),
                               db.query(
-                                  "SELECT sku,label,color FROM products WHERE family=(SELECT family FROM products WHERE sku=?) AND active=true ORDER BY sku",
+                                  "SELECT sku,slug,label,color FROM products WHERE family=(SELECT family FROM products WHERE sku=?) AND active=true ORDER BY sku",
                                   (r, i) ->
                                       new Variant(
                                           r.getString("sku"),
+                                          r.getString("slug"),
                                           r.getString("label"),
                                           r.getString("color")),
                                   sku)),

@@ -4,6 +4,13 @@ updates:
     directory: /
     schedule:
       interval: weekly
+    groups:
+      compatible-updates:
+        update-types: [minor, patch]
+    ignore:
+      # A Boot major upgrade requires a coordinated Springdoc/Resilience4j migration.
+      - dependency-name: org.springframework.boot:spring-boot-starter-parent
+        update-types: [version-update:semver-major]
   - package-ecosystem: github-actions
     directory: /
     schedule:

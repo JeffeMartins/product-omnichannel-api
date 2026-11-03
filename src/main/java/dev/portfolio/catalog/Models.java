@@ -10,7 +10,7 @@ public final class Models {
 
   public record Attribute(String name, String value) {}
 
-  public record Variant(String sku, String label, String color) {}
+  public record Variant(String sku, String slug, String label, String color) {}
 
   public record Product(
       String sku,
